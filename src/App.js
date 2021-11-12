@@ -5,14 +5,11 @@ class App extends Component {
     pictures: [],
     filter: "",
   };
-  
 
-  handleFilter = (e) => {
-  };
+  handleFilter = (e) => {};
 
-
-    render() {
-    return 
+  render() {
+    return <div className="App"></div>;
   }
 }
 
