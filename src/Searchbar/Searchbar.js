@@ -3,38 +3,34 @@ import PropTypes from "prop-types";
 import styles from "./Searchbar.module.css";
 import { FcSearch } from "react-icons/fc";
 import { IconContext } from "react-icons";
+import { toast } from "react-toastify";
 
 class Searchbar extends Component {
   state = {
-    name: "",
+    query: "",
   };
 
   handleInput = (e) => {
     this.setState({
-      name: e.target.value.trim(),
+      query: e.currentTarget.value.trim(),
     });
-    setTimeout(() => {
-      this.resetState(e);
-    }, 5000);
   };
-
-  resetState(e) {
-    e.target.value = "";
-  }
 
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name } = this.state;
+    const { query } = this.state;
 
-    if (name === "") {
-      return;
+    if (query === "") {
+      toast.error("Enter the data in the form!")
+      return
     }
-    this.props.onSubmit(name);
-    this.setState({ name: "" });
+    this.props.onSubmit(query);
+    this.setState({ query: "" })
   };
 
   render() {
+    const {query}=this.state
     return (
       <header className={styles.searchbar}>
         <form className={styles.form} onSubmit={this.handleSubmit}>
@@ -54,6 +50,8 @@ class Searchbar extends Component {
             autoFocus
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             placeholder="Search images and photos"
+            name="query"
+            value={query}
           />
         </form>
       </header>
