@@ -33,14 +33,21 @@ class App extends Component {
     this.setState({ searchQuery: query, page: 1, pictures: [] });
   };
 
+  filterPictures = (pictures) => {
+  const array =  pictures.map(({ id, webformatURL, user, largeImageURL }) => {
+      return ({ id, webformatURL, user, largeImageURL })
+  })
+    return array
+  }
+
   fetchPictures = () => {
     const { searchQuery, page } = this.state;
     this.setState({ isLoading: true })
     fetchApi(searchQuery, page).then((data) => {
       if (data.length === 0) { toast.warning("Зображення не знайдено!") }
       this.setState((prevState) => ({
-        pictures: [...prevState.pictures, ...data],
-      }));
+        pictures: [...prevState.pictures, ...this.filterPictures(data)],
+      }))
     }).catch((error) => toast.error(error.message))
       .finally(() => {
         this.setState({ isLoading: false })
